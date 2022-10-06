@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scaffold.demo.mapper.DemoMapper">
+
+    <select id="selectById" resultType="scaffold.demo.model.DemoDO">
+        SELECT id, name FROM tb_demo WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="scaffold.demo.model.DemoDO" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO tb_demo(name)VALUES(#{name})
+    </insert>
+
+    <update id="update" parameterType="scaffold.demo.model.DemoDO">
+        UPDATE tb_demo
+        SET name = #{name}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM tb_demo WHERE id = #{id}
+    </delete>
+
+    <select id="selectAll" resultType="scaffold.demo.model.DemoDO">
+        SELECT id, name
+        FROM tb_demo
+        WHERE name LIKE "%"#{name}"%"
+    </select>
+</mapper>
