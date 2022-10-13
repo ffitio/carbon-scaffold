@@ -33,20 +33,20 @@ func (p *Project) ReplacePom(src []byte) []byte {
 
 	re := regexp.MustCompile(`<groupId>io.ffit.carbon</groupId>\s*<artifactId>scaffold</artifactId>`)
 	pom = re.ReplaceAllString(pom, fmt.Sprintf("<groupId>%s</groupId>\n    <artifactId>%s</artifactId>", p.GroupId, p.ArtifactId))
-	pom = strings.Replace(pom, "<revision>1.0.0</revision>", fmt.Sprintf("<revision>%s</revision>", p.Version), -1)
-	pom = strings.Replace(pom, "scaffold-domain", fmt.Sprintf("%s-domain", p.ArtifactId), -1)
-	pom = strings.Replace(pom, "scaffold-infrastructure", fmt.Sprintf("%s-infrastructure", p.ArtifactId), -1)
-	pom = strings.Replace(pom, "scaffold-app", fmt.Sprintf("%s-app", p.ArtifactId), -1)
-	pom = strings.Replace(pom, "scaffold-adaptor", fmt.Sprintf("%s-adaptor", p.ArtifactId), -1)
-	pom = strings.Replace(pom, "scaffold-starter", fmt.Sprintf("%s-starter", p.ArtifactId), -1)
-	pom = strings.Replace(pom, "scaffold-common", fmt.Sprintf("%s-common", p.ArtifactId), -1)
+	pom = strings.ReplaceAll(pom, "<revision>1.0.0</revision>", fmt.Sprintf("<revision>%s</revision>", p.Version))
+	pom = strings.ReplaceAll(pom, "scaffold-domain", fmt.Sprintf("%s-domain", p.ArtifactId))
+	pom = strings.ReplaceAll(pom, "scaffold-infrastructure", fmt.Sprintf("%s-infrastructure", p.ArtifactId))
+	pom = strings.ReplaceAll(pom, "scaffold-app", fmt.Sprintf("%s-app", p.ArtifactId))
+	pom = strings.ReplaceAll(pom, "scaffold-adaptor", fmt.Sprintf("%s-adaptor", p.ArtifactId))
+	pom = strings.ReplaceAll(pom, "scaffold-starter", fmt.Sprintf("%s-starter", p.ArtifactId))
+	pom = strings.ReplaceAll(pom, "scaffold-common", fmt.Sprintf("%s-common", p.ArtifactId))
 	return []byte(pom)
 }
 
 func (p *Project) ReplacePackage(src []byte) []byte {
 	source := string(src)
-	source = strings.Replace(source, "package scaffold", fmt.Sprintf("package %s", p.Package), -1)
-	source = strings.Replace(source, "import scaffold", fmt.Sprintf("import %s", p.Package), -1)
+	source = strings.ReplaceAll(source, "package scaffold", fmt.Sprintf("package %s", p.Package))
+	source = strings.ReplaceAll(source, "import scaffold", fmt.Sprintf("import %s", p.Package))
 	return []byte(source)
 }
 
@@ -80,7 +80,7 @@ func (p *Project) Transfer(name string) (transfer resources.Transfer) {
 }
 
 func (p *Project) TransferFiles(srcPath, targetPath string, entries []fs.DirEntry, skipDir bool) error {
-	err := os.Mkdir(targetPath, 0755)
+	err := os.MkdirAll(targetPath, 0755)
 	if err != nil {
 		return err
 	}
@@ -103,7 +103,7 @@ func (p *Project) TransferFiles(srcPath, targetPath string, entries []fs.DirEntr
 
 			subTargetPath := path.Join(targetPath, name)
 			if name == "scaffold" {
-				subTargetPath = path.Join(targetPath, p.Package)
+				subTargetPath = path.Join(targetPath, strings.ReplaceAll(p.Package, ".", "/"))
 			}
 
 			err = p.TransferFiles(path.Join(srcPath, name), subTargetPath, subEntries, false)

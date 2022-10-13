@@ -23,6 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <revision>1.0.0</revision>
+        <components.version>1.1.0</components.version>
         <i18n4j.version>1.1.0</i18n4j.version>
         <springboot.version>2.7.4</springboot.version>
         <fastjson2.version>2.0.14</fastjson2.version>
@@ -35,7 +36,7 @@
             <dependency>
                 <groupId>io.ffit.carbon</groupId>
                 <artifactId>base-component-bom</artifactId>
-                <version>1.0.0</version>
+                <version>${components.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -61,18 +62,6 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis.version}</version>
-            </dependency>
-
-            <!-- fastjson2 -->
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2-extension</artifactId>
-                <version>${fastjson2.version}</version>
             </dependency>
 
             <!-- modules -->

@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.fastjson2.support.config.FastJsonConfig;
 import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageConverter;
+import io.ffit.carbon.context.handler.CarbonContextInterceptor;
 import io.ffit.carbon.i18n4j.springboot.context.I18nSourceHolder;
 import io.ffit.carbon.response.HttpError;
 import io.ffit.carbon.response.Response;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.ConstraintViolation;
@@ -164,5 +166,11 @@ public class WebConfig implements WebMvcConfigurer {
         converter.setDefaultCharset(StandardCharsets.UTF_8);
         converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
         converters.add(0, converter);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        CarbonContextInterceptor interceptor = new CarbonContextInterceptor();
+        registry.addInterceptor(interceptor).addPathPatterns("/**");
     }
 }
