@@ -104,6 +104,11 @@
         </dependency>
 
         <dependency>
+            <groupId>io.ffit.carbon</groupId>
+            <artifactId>base-component-exception</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
