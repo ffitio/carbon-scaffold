@@ -56,6 +56,12 @@ func (p *Project) ReplaceMapper(src []byte) []byte {
 	return []byte(source)
 }
 
+func (p *Project) ReplaceSpringConfig(src []byte) []byte {
+	source := string(src)
+	source = strings.ReplaceAll(source, "carbon-scaffold", p.ArtifactId)
+	return []byte(source)
+}
+
 func (p *Project) ModuleName(module string) string {
 	return fmt.Sprintf("%s-%s", p.ArtifactId, module)
 }
@@ -72,6 +78,10 @@ func (p *Project) Transfer(name string) (transfer resources.Transfer) {
 	} else if isMapper(name) {
 		transfer = func(src []byte) []byte {
 			return p.ReplaceMapper(src)
+		}
+	} else if isSpringConfig(name) {
+		transfer = func(src []byte) []byte {
+			return p.ReplaceSpringConfig(src)
 		}
 	} else {
 		transfer = resources.EmptyTransfer
@@ -128,6 +138,11 @@ func isJavaSource(filename string) bool {
 
 func isMapper(filename string) bool {
 	return path.Ext(filename) == ".xml"
+}
+
+func isSpringConfig(filename string) bool {
+	isYml := path.Ext(filename) == ".yml" || path.Ext(filename) == ".yaml"
+	return isYml && strings.HasPrefix(filename, "application")
 }
 
 func isIgnore(filename string) bool {
